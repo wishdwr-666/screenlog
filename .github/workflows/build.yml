@@ -32,7 +32,7 @@ jobs:
         if: matrix.platform == 'ubuntu-latest'
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y libwebkit2gtk-6.0-dev libwebkit2gtk-4.1-dev libadwaita-1-dev librsvg2-dev
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libadwaita-1-dev librsvg2-dev
       
       - name: Install npm dependencies with retry
         run: npm install --prefer-offline --no-audit
