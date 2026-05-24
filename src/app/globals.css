@@ -1,0 +1,142 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── 治愈暖手帐设计系统 ─────────────────────────────────────────────── */
+@theme {
+  --color-primary: #D36E52;
+  --color-secondary: #7E97A6;
+  --color-accent: #FAF6EE;
+  --color-border: #E3D9C1;
+  --color-text-primary: #2B2A27;
+  --color-text-secondary: #5D5749;
+  --color-text-muted: #8E836A;
+  --color-states-success: #9CB48A;
+  --color-states-warning: #E6AF2E;
+  --color-states-error: #DC2626;
+  --font-heading: "Noto Serif SC", serif;
+  --font-body: system-ui, sans-serif;
+}
+
+/* CSS 自定义属性（供设计规范 var() 直接引用）*/
+:root {
+  --app-primary: #D36E52;
+  --app-secondary: #7E97A6;
+  --app-surface: #FCFAF2;
+  --app-bg: #FDF9F0;
+  --app-border: #E3D9C1;
+  --app-text: #2B2A27;
+  --app-text-secondary: #5D5749;
+  --app-text-muted: #8E836A;
+  --app-success: #9CB48A;
+
+  /* 日间默认 */
+  --card-warm:              #FAF3DF;
+  --card-warm-border:       #C5BCA3;
+  --badge-locked-bg:        #EAE4D6;
+  --badge-locked-border:    #DFD9C9;
+  --badge-locked-icon-bg:   #8B8470;
+  --badge-locked-emoji-bg:  #D6CDBA;
+  --sidebar-bg:             rgba(253, 248, 225, 0.45);
+  --sidebar-border:         rgba(224, 200, 130, 0.35);
+  --sidebar-hover:          rgba(243, 237, 224, 0.8);
+  --heatmap-zero:           #EDE8DC;
+  --skeleton-from:          #EDE8DC;
+  --skeleton-mid:           #F7F2E8;
+  --chip-green-bg:          #dcfce7;
+  --chip-green-text:        #15803d;
+  --chip-red-bg:            #fee2e2;
+  --chip-red-text:          #b91c1c;
+  --app-warning: #E6AF2E;
+  --app-error: #DC2626;
+  --font-heading: "Noto Serif SC", serif;
+  --font-interface: system-ui, sans-serif;
+
+  /* shadcn 兼容变量 */
+  --background: #FDF9F0;
+  --foreground: #2B2A27;
+  --card: #FCFAF2;
+  --card-foreground: #2B2A27;
+  --border: #E3D9C1;
+  --input: #E3D9C1;
+  --ring: #D36E52;
+  --primary: #D36E52;
+  --primary-foreground: #fff;
+  --muted: #F5EFE0;
+  --muted-foreground: #8E836A;
+  --radius: 0.5rem;
+
+  /* 动态环境变量（由 DynamicEnvironment 注入）*/
+  --env-night-overlay: 0;
+  --env-is-night: 0;
+  --glass-bg: rgba(252, 250, 242, 0.65);
+  --glass-border: rgba(255,255,255,0.55);
+  --glass-blur: 16px;
+}
+
+/* ─── 全局基础 ────────────────────────────────────────────────────────── */
+html, body {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  min-height: 100svh;
+  background-color: var(--app-bg);
+  color: var(--app-text);
+  font-family: var(--font-interface);
+}
+
+@layer base {
+  * {
+    border-color: var(--app-border);
+  }
+  body {
+    background-color: var(--app-bg);
+    color: var(--app-text);
+  }
+}
+
+/* ─── 纸张纹理 ─────────────────────────────────────────────────────────── */
+.paper-texture {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* ─── 骨架屏动画 ────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: calc(400px + 100%) 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-mid) 50%, var(--skeleton-from) 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 4px;
+}
+
+/* ─── 手帐虚线 ────────────────────────────────────────────────────────── */
+.journal-line {
+  border-bottom: 1px dashed var(--app-border);
+}
+
+/* ─── 滚动条 ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--app-border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--app-text-muted); }
+
+/* ─── UI 效果系统（旧 class-based 规则已移除，现由 JS CSS 变量动态控制）── */
+
+/* ─── 毛玻璃效果（所有卡片、导航、面板通用）────────────────────────── */
+.glass {
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  border: 1px solid var(--glass-border);
+}
+
+/* ─── 所有用 --app-surface 的卡片自动带毛玻璃 ─────────────────────────── */
+[class*="bg-[var(--app-surface)]"] {
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+}
