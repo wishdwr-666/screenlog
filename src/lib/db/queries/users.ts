@@ -3,7 +3,7 @@ import { db } from "../client";
 import { users, type User } from "../schema/users";
 
 export async function getUserById(id: string): Promise<User | undefined> {
-  const rows = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  const rows = await db!.select().from(users).where(eq(users.id, id)).limit(1);
   return rows[0];
 }
 
